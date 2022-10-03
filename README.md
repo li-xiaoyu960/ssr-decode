@@ -2,9 +2,11 @@
 ## 编辑复制
  - 1.复制代码复制到命名为node-decode.sh的文件中
 ## 执行方式
- - 1.sh node-decode.sh https://fghfsdfdsafsdf
- - 2.sh node-decode.sh "https://fghfsdfdsafsdf"
- - **Disclaimer:**我的订阅链接中有&符号，后面的网址内容均不能识别，所以加上引号以后能正常解析下载
+```sh
+  1.sh node-decode.sh https://fghfsdfdsafsdf
+  2.sh node-decode.sh "https://fghfsdfdsafsdf"
+ ```sh
+  **Disclaimer:**我的订阅链接中有&符号，后面的网址内容均不能识别，所以加上引号以后能正常解析下载
  - 3.sh -x node-decode.sh "https://fghfsdfdsafsdf"
 **调试模式，查看运行流程
  - 4.sh node-decode.sh vmess://sdfdsgfdgssdfgdsgfdg
