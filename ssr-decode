@@ -8,7 +8,8 @@
 #
 # Requirements: base64, curl/wget (optional)
 
-local_port=${LOCAL_PORT:-1080}
+##只有ss类型需要本地端口吗？没发现有用，自己随便设置
+local_port=${LOCAL_PORT:-1080}  
 timeout=${TIMEOUT:-300}
 
 decode_base64() {
@@ -90,6 +91,8 @@ decode_link() {
 	esac
 }
 
+##主程序位置，$#代表传入参数个数，$1代表第一个参数，我的订阅链接使用0个参数，手动输入链接能下载识别，直接输入第一个参数却不能完全识别链接地址，在&后识别不了
+##使用sh ssr-decode "https://" 能正常解析使用
 if [ "$#" = 1 ] && [ "$1" = "-h" ]; then
 	echo "Usage: ssr-decode [ (http|https|ss|ssr|vmess):// | BASE64 | < input.txt ]"
 elif [ "$#" = 0 ]; then
