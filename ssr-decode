@@ -85,7 +85,7 @@ decode_link() {
 		ss)     decode_ss "$info" ;;
 		ssr)    decode_ssr "$info" ;;
 		vmess)  decode_vmess "$info" ;;
-		https?) decode_link "$(curl -Ss "$1" || wget -qO - "$1")" ;;
+		https) decode_link "$(wget -qO - "$1")" ;;
 		*)      for link in $info; do decode_link "$link"; done ;;
 	esac
 }
