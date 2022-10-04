@@ -86,7 +86,9 @@ decode_link() {
 		ss)     decode_ss "$info" ;;
 		ssr)    decode_ssr "$info" ;;
 		vmess)  decode_vmess "$info" ;;
-		https) decode_link "$(wget -qO - "$1")" ;;
+		#https) decode_link "$(wget -qO - "$1")" ;;变成下面的格式，能够记录每次wget访问订阅链接成功与否、访问时间、输出形式
+		https) decode_link "$(wget -a wget.log -O - "$1")" ;;
+		
 		*)      for link in $info; do decode_link "$link"; done ;;
 	esac
 }
