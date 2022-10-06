@@ -100,3 +100,5 @@ else
 		decode_link "$link"
 	done
 fi
+
+exit 0
