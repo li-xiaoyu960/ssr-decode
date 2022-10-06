@@ -1,23 +1,30 @@
-# 经修改后的使用方法
-## 编辑复制
- - 1.复制代码复制到命名为node-decode.sh的文件中
-## 执行方式
+# 自定义后的使用方法
+## 运行流程
+ - first step
 ```sh
-  1.sh node-decode.sh https://fghfsdfdsafsdf
-  2.sh node-decode.sh "https://fghfsdfdsafsdf"
- ```
-  **Disclaimer:**我的订阅链接中有&符号，后面的网址内容均不能识别，所以加上引号以后能正常解析下载
+rm ip_update_latest.json 
+```
+ - second step
  ```sh
-  3.sh -x node-decode.sh "https://fghfsdfdsafsdf"
- ```
-**Disclaimer:**调试模式，查看运行流程
-```sh
-  4.sh node-decode.sh vmess://sdfdsgfdgssdfgdsgfdg
-  5.sh node-decode.sh < file.txt
- ```
-**Disclaimer:**file.txt为base64格式的字符串或者ss、vmess开头的链接
-**Disclaimer:**ss、vmess开头的链接也是base64格式加密的格式文件
-```sh
-  6.bash node-decode.sh vmess://sdfdsgfdgssdfgdsgfdg
-  7.bash node-decode.sh https://sdfdsgfdgssdfgdsgfdg
- ```
+sh ip_update_download_decode.sh "https://***.php?service=***"
+```
+ - third step
+ ```sh
+sh ip_update_sed.sh >>ip_update_log.log
+```
+ - fourth step
+ ```sh
+/etc/init.d/openclash restart
+```
+## 文件说明
+
+  共有四个文件：
+  分别是
+  ip_update_download_decode.sh      
+      **Disclaimer:**负责下载订阅文件并base64解码成节点信息，分别以"  server= *.*.*.*"输出到ip_update_latest.json文件中，每个ip占用一行
+  ip_update_sed.sh
+      **Disclaimer:**负责将ip_update_latest.json每行IP地址与配置文件对应行的IP地址比对，null、相同、不同分别采取不同措施
+  ip_update_latest.json
+      **Disclaimer:**存储订阅的最新IP信息
+  ip_update_log.log
+      **Disclaimer:**记录ip_update_download_decode.sh和ip_update_sed.sh脚本产生的日志信息
