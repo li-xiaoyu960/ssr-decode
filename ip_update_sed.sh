@@ -118,7 +118,7 @@ if [ $changecount = 0 ]; then
 else
 	/etc/init.d/openclash restart
         echo "节点有更新，已重启openclash"
-	
+fi
 
 
 
