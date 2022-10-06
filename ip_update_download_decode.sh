@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Author: Lu Xu <oliver_lew at outlook at com>
-# License: MIT License. 2020-2021 Lu Xu
+# License: MIT License. 2021-2021 Lu Xu
 #
 # A shell script to parse Shadowsocks(R)/v2ray subscription links
 # and generate json config files
@@ -24,18 +24,10 @@ decode_ss() {
 	IFS=:@\  read -r method password server server_port <<- EOF
 		${1%%/?*}
 	EOF
-	conf=$(echo "ss-${server:-NoServer}-${server_port:-NoPort}.json" | tr "/ " _)
+	conf=$(echo "ip_update_latest.json" | tr "/ " _)
 	echo "Saving to $conf"
-	cat > "$conf" <<- EOF
-	{
-	    "server": "$server",
-	    "server_port": $server_port,
-	    "password": "$password",
-	    "local_address": "127.0.0.1",
-	    "local_port": $local_port,
-	    "timeout": $timeout,
-	    "method": "$method",
-	}
+	cat >> "$conf" <<- EOF
+	  server: $server
 	EOF
 }
 
@@ -75,9 +67,11 @@ decode_vmess() {
 	done <<- EOF
 		$(echo "$1" | tr '{,}' '\n' | tr -d '"')
 	EOF
-	conf=$(echo "v2ray-${add-null}-${ps-null}.json" | tr "/ " _)
+	conf=$(echo "ip_update_latest.json" | tr "/ " _)
 	echo "Saving to $conf"
-	echo "$1" > "$conf"
+	cat >> "$conf" <<- EOF
+	  server: ${add-null}
+	EOF
 }
 
 decode_link() {
@@ -87,7 +81,7 @@ decode_link() {
 		ssr)    decode_ssr "$info" ;;
 		vmess)  decode_vmess "$info" ;;
 		#https) decode_link "$(wget -qO - "$1")" ;;变成下面的格式，能够记录每次wget访问订阅链接成功与否、访问时间、输出形式
-		https) decode_link "$(wget -a wget.log -O - "$1")" ;;
+		https) decode_link "$(wget -a ip_update_log.log -O - "$1")" ;;
 		
 		*)      for link in $info; do decode_link "$link"; done ;;
 	esac
@@ -106,5 +100,3 @@ else
 		decode_link "$link"
 	done
 fi
-
-# vim: noet
