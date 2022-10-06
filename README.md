@@ -28,3 +28,5 @@ sh ip_update_sed.sh >>ip_update_log.log
       **Disclaimer:**存储订阅的最新IP信息
   ip_update_log.log
       **Disclaimer:**记录ip_update_download_decode.sh和ip_update_sed.sh脚本产生的日志信息
+  ip_update_autorun.sh
+      **Disclaimer:**配置上订阅链接地址，写入定时任务即可自动执行crontab -e    #0 */1 * * * sh /etc/openclash/ip_update_autorun.sh
