@@ -1,11 +1,13 @@
-#/!/bin/sh
+#!/bin/sh
 #echo "UTF-8 is græat ☺"
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/etc/openclash
+export LANG="en_US.UTF-8" 
 
-rm ip_update_latest.json
+rm /etc/openclash/ip_update_latest.json
 sleep 30
-sh ip_update_download_decode.sh "https://***.php?service=***"
+sh /etc/openclash/ip_update_download_decode.sh "https://XXXXXXXXXXXXXXX"
 sleep 30
-sh ip_update_sed.sh >>ip_update_log.log
+sh /etc/openclash/ip_update_sed.sh >>/etc/openclash/ip_update_log.log
 sleep 30
 
 exit 0

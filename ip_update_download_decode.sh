@@ -24,7 +24,7 @@ decode_ss() {
 	IFS=:@\  read -r method password server server_port <<- EOF
 		${1%%/?*}
 	EOF
-	conf=$(echo "ip_update_latest.json" | tr "/ " _)
+	conf=$(echo "/etc/openclash/ip_update_latest.json")
 	echo "Saving to $conf"
 	cat >> "$conf" <<- EOF
 	  server: $server
@@ -67,7 +67,7 @@ decode_vmess() {
 	done <<- EOF
 		$(echo "$1" | tr '{,}' '\n' | tr -d '"')
 	EOF
-	conf=$(echo "ip_update_latest.json" | tr "/ " _)
+	conf=$(echo "/etc/openclash/ip_update_latest.json")
 	echo "Saving to $conf"
 	cat >> "$conf" <<- EOF
 	  server: ${add-null}
@@ -81,7 +81,7 @@ decode_link() {
 		ssr)    decode_ssr "$info" ;;
 		vmess)  decode_vmess "$info" ;;
 		#https) decode_link "$(wget -qO - "$1")" ;;变成下面的格式，能够记录每次wget访问订阅链接成功与否、访问时间、输出形式
-		https) decode_link "$(wget -a ip_update_log.log -O - "$1")" ;;
+		https) decode_link "$(wget -a /etc/openclash/ip_update_log.log -O - "$1")" ;;
 		
 		*)      for link in $info; do decode_link "$link"; done ;;
 	esac
@@ -100,5 +100,4 @@ else
 		decode_link "$link"
 	done
 fi
-
 exit 0
