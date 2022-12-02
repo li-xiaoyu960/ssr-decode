@@ -29,6 +29,9 @@ decode_ss() {
 	cat >> "$conf" <<- EOF
 	  server: $server
 	EOF
+	cat >> /etc/openclash/ip_update_log.log <<- EOF
+	**本次解析的SS协议服务器IP地址为：$server
+	EOF
 }
 
 decode_ssr() {
@@ -71,6 +74,9 @@ decode_vmess() {
 	echo "Saving to $conf"
 	cat >> "$conf" <<- EOF
 	  server: ${add-null}
+	EOF
+	cat >> /etc/openclash/ip_update_log.log <<- EOF
+	**本次解析的VMESS协议服务器IP地址为: ${add-null}
 	EOF
 }
 
