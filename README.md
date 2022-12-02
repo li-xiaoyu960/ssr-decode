@@ -12,10 +12,7 @@ sh ip_update_download_decode.sh "https://***.php?service=***"
  ```sh
 sh ip_update_sed.sh >>ip_update_log.log
 ```
- - fourth step
- ```sh
-/etc/init.d/openclash restart
-```
+
 ## 文件说明
 
 共有四个文件：  
