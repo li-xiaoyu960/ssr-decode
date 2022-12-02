@@ -3,7 +3,15 @@
 
 time=`date +%y-%m-%d-%H:%M`
 changecount=0
+changecontent=""
 
+#新增加的TG推送功能变量
+TOKEN=XXX    #TG机器人token
+chat_ID=XXX               #用户ID或频道、群ID
+#message_text="您于$time有$changecount个节点更新：$changecontent"               #要发送的信息
+MODE='HTML'             #解析模式，可选HTML或Markdown
+URL="https://api.telegram.org/bot${TOKEN}/sendMessage"          #api接口
+####################
 
 #第一个节点：在/etc/openclash/config/jms.yaml文件中取得旧IP，在/etc/openclash/ip_update_latest.json文件中取得新IP，对比并替换 
 ss1new=$(sed -n '1p' /etc/openclash/ip_update_latest.json)
@@ -18,6 +26,7 @@ elif [ -n "$ss1new" ] && [ "$ss1new" != "$ss1old" ]; then
 	sed -i "11 s/$ss1old/$ss1new/" /etc/openclash/config/jms.yaml
 	ss1update=$(sed -n '11p' /etc/openclash/config/jms.yaml)
         changecount=`expr $changecount + 1`
+	changecontent="$changecontent + s1"	#tg推送模块
 	echo "s1节点ip有更新，旧IP为:$ss1old,新的IP为:$ss1update,更新时间为:$time"
 else
 	echo "节点更新错误"
@@ -36,6 +45,7 @@ elif [ -n "$ss2new" ] && [ "$ss2new" != "$ss2old" ]; then
         sed -i "17 s/$ss2old/$ss2new/" /etc/openclash/config/jms.yaml
         ss2update=$(sed -n '17p' /etc/openclash/config/jms.yaml)
         changecount=`expr $changecount + 1`
+	changecontent="$changecontent + s2"	#tg推送模块
         echo "s2节点ip有更新，旧IP为:$ss2old,新的IP为:$ss2update,更新时间为:$time"
 else
         echo "s2节点更新错误"
@@ -54,6 +64,7 @@ elif [ -n "$vmess3new" ] && [ "$vmess3new" != "$vmess3old" ]; then
         sed -i "23 s/$vmess3old/$vmess3new/" /etc/openclash/config/jms.yaml
         vmess3update=$(sed -n '23p' /etc/openclash/config/jms.yaml)
         changecount=`expr $changecount + 1`
+	changecontent="$changecontent + s3"	#tg推送模块
         echo "s3节点ip有更新，旧IP为:$vmess3old,新的IP为:$vmess3update,更新时间为:$time"
 else
         echo "s3节点更新错误"
@@ -72,6 +83,7 @@ elif [ -n "$vmess4new" ] && [ "$vmess4new" != "$vmess4old" ]; then
         sed -i "33 s/$vmess4old/$vmess4new/" /etc/openclash/config/jms.yaml
         vmess4update=$(sed -n '33p' /etc/openclash/config/jms.yaml)
         changecount=`expr $changecount + 1`
+	changecontent="$changecontent + s4"	#tg推送模块
         echo "s4节点ip有更新，旧IP为:$vmess4old,新的IP为:$vmess4update,更新时间为:$time"
 else
         echo "s4节点更新错误"
@@ -89,6 +101,7 @@ elif [ -n "$vmess5new" ] && [ "$vmess5new" != "$vmess5old" ]; then
         sed -i "44 s/$vmess5old/$vmess5new/" /etc/openclash/config/jms.yaml
         vmess5update=$(sed -n '44p' /etc/openclash/config/jms.yaml)
         changecount=`expr $changecount + 1`
+	changecontent="$changecontent + s5"	#tg推送模块
         echo "s5节点ip有更新，旧IP为:$vmess5old,新的IP为:$vmess5update,更新时间为:$time"
 else
         echo "s5节点更新错误"
@@ -107,6 +120,7 @@ elif [ -n "$vmess801new" ] && [ "$vmess801new" != "$vmess801old" ]; then
         sed -i "54 s/$vmess801old/$vmess801new/" /etc/openclash/config/jms.yaml
         vmess801update=$(sed -n '54p' /etc/openclash/config/jms.yaml)
         changecount=`expr $changecount + 1`
+	changecontent="$changecontent + s801"	#tg推送模块
         echo "s801节点ip有更新，旧IP为:$vmess801old,新的IP为:$vmess801update,更新时间为:$time"
 else
         echo "s801节点更新错误"
@@ -120,6 +134,8 @@ else
 	/etc/init.d/openclash restart
         echo "节点有更新，已重启openclash"
 	echo "------------------------------我是本次的分隔符--------本次更新节点$changecount个----------更新时间为：$time--------------------"
+	message_text="您于$time有$changecount个节点更新：$changecontent"               #tg推送模块：要发送的信息
+        curl -s -o /dev/null -X POST $URL -d chat_id=${chat_ID} -d text="${message_text}"	#tg推送模块
 fi	
 
 
