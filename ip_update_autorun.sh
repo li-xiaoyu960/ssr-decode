@@ -3,11 +3,11 @@
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/etc/openclash
 export LANG="en_US.UTF-8" 
 
-rm /etc/openclash/ip_update_latest.json
+rm /root/.config/clash/proxy-providers/ip_update_latest.json
 sleep 30
-sh /etc/openclash/ip_update_download_decode.sh "https://XXXXXXXXXXXXXXX"
+sh /root/.config/clash/proxy-providers/ip_update_download_decode.sh "https://XXXXXXXXXXXXXXX"
 sleep 30
-sh /etc/openclash/ip_update_sed.sh >>/etc/openclash/ip_update_log.log
+sh /root/.config/clash/proxy-providers/ip_update_sed.sh >>/root/.config/clash/proxy-providers/ip_update_log.log
 sleep 30
 
 exit 0
