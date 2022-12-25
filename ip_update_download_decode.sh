@@ -24,12 +24,12 @@ decode_ss() {
 	IFS=:@\  read -r method password server server_port <<- EOF
 		${1%%/?*}
 	EOF
-	conf=$(echo "/etc/openclash/ip_update_latest.json")
+	conf=$(echo "/root/.config/clash/proxy-providers/ip_update_latest.json")
 	echo "Saving to $conf"
 	cat >> "$conf" <<- EOF
 	  server: $server
 	EOF
-	cat >> /etc/openclash/ip_update_log.log <<- EOF
+	cat >> /root/.config/clash/proxy-providers/ip_update_log.log <<- EOF
 	**本次解析的SS协议服务器IP地址为：$server
 	EOF
 }
@@ -70,12 +70,12 @@ decode_vmess() {
 	done <<- EOF
 		$(echo "$1" | tr '{,}' '\n' | tr -d '"')
 	EOF
-	conf=$(echo "/etc/openclash/ip_update_latest.json")
+	conf=$(echo "/root/.config/clash/proxy-providers/ip_update_latest.json")
 	echo "Saving to $conf"
 	cat >> "$conf" <<- EOF
 	  server: ${add-null}
 	EOF
-	cat >> /etc/openclash/ip_update_log.log <<- EOF
+	cat >> /root/.config/clash/proxy-providers/ip_update_log.log <<- EOF
 	**本次解析的VMESS协议服务器IP地址为: ${add-null}
 	EOF
 }
@@ -87,7 +87,7 @@ decode_link() {
 		ssr)    decode_ssr "$info" ;;
 		vmess)  decode_vmess "$info" ;;
 		#https) decode_link "$(wget -qO - "$1")" ;;变成下面的格式，能够记录每次wget访问订阅链接成功与否、访问时间、输出形式
-		https) decode_link "$(wget -a /etc/openclash/ip_update_log.log -O - "$1")" ;;
+		https) decode_link "$(wget -a /root/.config/clash/proxy-providers/ip_update_log.log -O - "$1")" ;;
 		
 		*)      for link in $info; do decode_link "$link"; done ;;
 	esac
