@@ -132,6 +132,7 @@ if [ $changecount = 0 ]; then
 	echo "------------------------------我是本次的分隔符--------本次没有节点更新---------更新时间为：$time-------------------------------"
 else
 	systemctl restart clash
+	sleep 5
         echo "节点有更新，已重启clash"
 	echo "------------------------------我是本次的分隔符--------本次更新节点$changecount个----------更新时间为：$time--------------------"
 	message_text="您于$time有$changecount个节点更新：$changecontent"               #tg推送模块：要发送的信息
